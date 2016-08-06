@@ -32,8 +32,17 @@ public class Machine {
     public Boolean matchAndReduce(String word) {
         Scanner scanner = new Scanner(System.in);
         String matchesString = scanner.nextLine();
-        if(matchesString != "YOU WIN") {
+        if(!matchesString.equals("YOU WIN")) {
             int matches = Integer.parseInt(matchesString);
+            if(matches == length) {
+//                for(String word2 : Util.sortedWords) {
+//                    if(Util.sort(word) != word2)
+//                        Util.sortedWords.remove(word2);
+//                }
+            }
+            else {
+                Util.sortedWords.remove(Util.sort(word));
+            }
             Util.sortedWords = Util.filterList(Util.sortedWords, word, matches);
             return true;
         }

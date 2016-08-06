@@ -23,10 +23,24 @@ public class Util {
     public static ArrayList<String> filterByLength(ArrayList<String> list, int length) {
         ArrayList<String> newList = new ArrayList<String>();
         for(String word : list) {
-            if(word.length() == length)
+            if(word.length() == length && hasNoDuplicates(word))
                 newList.add(word);
         }
         return newList;
+    }
+
+    public static boolean hasNoDuplicates(String word) {
+        char[] chars = word.toCharArray();
+        int counter = 0;
+        Set<Character> charSet = new LinkedHashSet<Character>();
+        for (char c : chars) {
+            charSet.add(c);
+        }
+
+        for (Character character : charSet) {
+            counter++;
+        }
+        return (counter == word.length());
     }
 
     public static void generateClusters(ArrayList<String> words) {
