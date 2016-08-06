@@ -47,7 +47,14 @@ public class Util {
         }
     }
 
-
+    public static ArrayList<String> filterList(ArrayList<String> list, String regEx, Integer matches) {
+        ArrayList<String> newList = new ArrayList<String>();
+        for(String word : list) {
+            if(((word.matches(regEx)) && matches > 0) || (!(word.matches(regEx)) && matches == 0))
+                newList.add(word);
+        }
+        return newList;
+    }
 
 
 
