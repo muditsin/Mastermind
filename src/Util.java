@@ -8,12 +8,7 @@ public class Util {
     public static HashMap<String, ArrayList<String>> clusters = new HashMap<String, ArrayList<String>>();
     public static ArrayList<String> sortedWords = new ArrayList<String>();
 
-    static {
-        try {
-            generateClusters(filterByLength(readFile("C:\\Users\\musinha\\IdeaProjects\\Mastermind\\sowpods.txt"), 5));
-        } catch (Exception e) {
-        }
-    }
+
 
     public static ArrayList<String> readFile(String path) throws Exception {
         return (ArrayList<String>) Files.readAllLines(Paths.get(path));
@@ -47,13 +42,46 @@ public class Util {
         }
     }
 
-    public static ArrayList<String> filterList(ArrayList<String> list, String regEx, Integer matches) {
+    public static ArrayList<String> filterList(ArrayList<String> list, String matchingWord, Integer matches) {
+        String regEx = generateRegExPattern(matchingWord, matches);
         ArrayList<String> newList = new ArrayList<String>();
         for(String word : list) {
-            if(((word.matches(regEx)) && matches > 0) || (!(word.matches(regEx)) && matches == 0))
+            if((((word.matches(regEx)) && matches > 0) || (!(word.matches(regEx)) && matches == 0)) && sort(matchingWord) != word)
                 newList.add(word);
         }
         return newList;
+    }
+
+    public static String generateRegExPattern(String word, int matches) {
+        char[] charArray = word.toCharArray();
+
+        String pattern = "^.*";
+
+        if(matches == 0)
+            pattern += "[" +word+ "].*";
+
+        else
+            for(int i = 0; i < matches; i++){
+                pattern += "[" +word+ "].*";
+            }
+        pattern += "$";
+        return pattern;
+    }
+
+    public static int matches(String secretWord,String guessWord){
+        char[] chars = guessWord.toCharArray();
+        int matches=0;
+        Set<Character> charSet = new LinkedHashSet<Character>();
+        for (char c : chars) {
+            charSet.add(c);
+        }
+        for (Character character : charSet) {
+            if(secretWord.indexOf(character) >= 0){
+                matches++;
+            }
+        }
+        return matches;
+
     }
 
 
